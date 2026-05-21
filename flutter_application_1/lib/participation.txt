@@ -1,0 +1,7 @@
+I have done all the work by myself.
+- NavBar with two rows
+- 8 containers with GridView
+- 2 circle areas
+- 4 bottom containers
+- Product page
+- Navigation with "laptop"
