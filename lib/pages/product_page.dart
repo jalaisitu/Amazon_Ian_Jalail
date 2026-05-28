@@ -2,8 +2,24 @@ import 'package:flutter/material.dart';
 import '../components/nav_bar.dart';
 import '../constants.dart';
 
-class ProductPage extends StatelessWidget {
+class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
+
+  @override
+  State<ProductPage> createState() => _ProductPageState();
+}
+
+class _ProductPageState extends State<ProductPage> {
+  int _selectedImage = 0;
+
+  final List<String> _images = [
+    'assets/images/laptop_6.jpg',
+    'assets/images/laptop_1.jpg',
+    'assets/images/laptop_2.jpg',
+    'assets/images/laptop_3.jpg',
+    'assets/images/laptop_4.jpg',
+    'assets/images/laptop_5.jpg',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -33,22 +49,27 @@ class ProductPage extends StatelessWidget {
                     color: Colors.white,
                     padding: const EdgeInsets.all(5),
                     child: Column(
-                      children: [
-                        _thumbnail(),
-                        _thumbnail(),
-                        _thumbnail(),
-                        _thumbnail(),
-                        _thumbnail(),
-                        _thumbnail(),
-                        Container(
-                          height: 60,
-                          margin: const EdgeInsets.all(4),
-                          color: Colors.grey[200],
-                          child: const Center(
-                            child: Text('6 VÍDEOS', style: TextStyle(fontSize: 9)),
+                      children: List.generate(_images.length, (index) {
+                        return GestureDetector(
+                          onTap: () => setState(() => _selectedImage = index),
+                          child: Container(
+                            height: 60,
+                            margin: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: _selectedImage == index
+                                    ? AppColors.amazonOrange
+                                    : Colors.grey[300]!,
+                                width: _selectedImage == index ? 2 : 1,
+                              ),
+                            ),
+                            child: Image.asset(
+                              _images[index],
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                      ],
+                        );
+                      }),
                     ),
                   ),
                   // Column 2: Main image
@@ -56,30 +77,11 @@ class ProductPage extends StatelessWidget {
                     width: 380,
                     color: Colors.white,
                     padding: const EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        Image.network(
-                          'https://picsum.photos/seed/laptop/400/350',
-                          width: 360,
-                          height: 350,
-                          fit: BoxFit.contain,
-                          errorBuilder: (c, e, s) => Container(
-                            width: 360,
-                            height: 350,
-                            color: Colors.grey[200],
-                            child: const Icon(Icons.laptop, size: 80, color: Colors.grey),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            _smallImage(),
-                            _smallImage(),
-                            _smallImage(),
-                          ],
-                        ),
-                      ],
+                    child: Image.asset(
+                      _images[_selectedImage],
+                      width: 360,
+                      height: 380,
+                      fit: BoxFit.contain,
                     ),
                   ),
                   // Column 3: Product description
@@ -101,20 +103,11 @@ class ProductPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 6),
                           Row(
-                            children: [
-                              const Text(
-                                '4.2 ',
-                                style: TextStyle(color: AppColors.linkBlue, fontSize: 13),
-                              ),
-                              const Text(
-                                '★★★★☆',
-                                style: TextStyle(color: AppColors.amazonOrange, fontSize: 14),
-                              ),
-                              const SizedBox(width: 5),
-                              const Text(
-                                '231 valoraciones',
-                                style: TextStyle(color: AppColors.linkBlue, fontSize: 13),
-                              ),
+                            children: const [
+                              Text('4.2 ', style: TextStyle(color: AppColors.linkBlue, fontSize: 13)),
+                              Text('★★★★☆', style: TextStyle(color: AppColors.amazonOrange, fontSize: 14)),
+                              SizedBox(width: 5),
+                              Text('231 valoraciones', style: TextStyle(color: AppColors.linkBlue, fontSize: 13)),
                             ],
                           ),
                           const SizedBox(height: 4),
@@ -125,35 +118,17 @@ class ProductPage extends StatelessWidget {
                           const Divider(height: 20),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              const Text(
-                                '-14% ',
-                                style: TextStyle(color: Colors.red, fontSize: 16),
-                              ),
-                              const Text(
-                                '395',
-                                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-                              ),
-                              const Text(
-                                '99€',
-                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                              ),
+                            children: const [
+                              Text('-14% ', style: TextStyle(color: Colors.red, fontSize: 16)),
+                              Text('395', style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+                              Text('99€', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                             ],
                           ),
                           const SizedBox(height: 6),
-                          const Text(
-                            'Precio recomendado: 460,99€',
-                            style: TextStyle(fontSize: 12, color: Colors.black54),
-                          ),
-                          const Text(
-                            'Devoluciones GRATIS ▾',
-                            style: TextStyle(color: AppColors.linkBlue, fontSize: 13),
-                          ),
+                          const Text('Precio recomendado: 460,99€', style: TextStyle(fontSize: 12, color: Colors.black54)),
+                          const Text('Devoluciones GRATIS ▾', style: TextStyle(color: AppColors.linkBlue, fontSize: 13)),
                           const SizedBox(height: 10),
-                          const Text(
-                            'Los precios de los productos vendidos en Amazon incluyen el IVA.',
-                            style: TextStyle(fontSize: 12),
-                          ),
+                          const Text('Los precios de los productos vendidos en Amazon incluyen el IVA.', style: TextStyle(fontSize: 12)),
                           const SizedBox(height: 10),
                           // Size selector
                           const Text('Tamaño: 15,6 Pulgadas', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
@@ -181,7 +156,6 @@ class ProductPage extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 15),
-                          // Specs table
                           _specRow('Marca', 'AOC'),
                           _specRow('Nombre del modelo', '2025 AOC portátil'),
                           _specRow('Tamaño de pantalla', '15,6 Pulgadas'),
@@ -203,7 +177,6 @@ class ProductPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Prime badge
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           color: const Color(0xFF00A8CC),
@@ -213,20 +186,9 @@ class ProductPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        const Text(
-                          'Te ofrecemos una prueba GRATIS de 30 días de Prime.',
-                          style: TextStyle(fontSize: 12),
-                        ),
+                        const Text('Te ofrecemos una prueba GRATIS de 30 días de Prime.', style: TextStyle(fontSize: 12)),
                         const SizedBox(height: 4),
-                        const Text(
-                          'prime',
-                          style: TextStyle(
-                            color: Color(0xFF00A8CC),
-                            fontSize: 18,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        const Text('prime', style: TextStyle(color: Color(0xFF00A8CC), fontSize: 18, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold)),
                         const Divider(height: 16),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -236,27 +198,14 @@ class ProductPage extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 4),
-                        const Text(
-                          'Devoluciones GRATIS ▾',
-                          style: TextStyle(color: AppColors.linkBlue, fontSize: 12),
-                        ),
+                        const Text('Devoluciones GRATIS ▾', style: TextStyle(color: AppColors.linkBlue, fontSize: 12)),
                         const SizedBox(height: 4),
-                        const Text(
-                          'Entrega GRATIS el viernes, 2 de mayo. Haz el pedido en 3 horas.',
-                          style: TextStyle(fontSize: 12),
-                        ),
+                        const Text('Entrega GRATIS el viernes, 2 de mayo. Haz el pedido en 3 horas.', style: TextStyle(fontSize: 12)),
                         const SizedBox(height: 4),
-                        const Text(
-                          '📍 Entrega en Barcelona 08025 - Actualizar ubicación',
-                          style: TextStyle(color: AppColors.linkBlue, fontSize: 12),
-                        ),
+                        const Text('📍 Entrega en Barcelona 08025 - Actualizar ubicación', style: TextStyle(color: AppColors.linkBlue, fontSize: 12)),
                         const SizedBox(height: 8),
-                        const Text(
-                          'En stock',
-                          style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 15),
-                        ),
+                        const Text('En stock', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 15)),
                         const SizedBox(height: 6),
-                        // Quantity
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
@@ -273,7 +222,6 @@ class ProductPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        // Add to cart button
                         Container(
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(vertical: 10),
@@ -281,15 +229,9 @@ class ProductPage extends StatelessWidget {
                             color: AppColors.buyNowYellow,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: const Center(
-                            child: Text(
-                              'Añadir a la cesta',
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-                            ),
-                          ),
+                          child: const Center(child: Text('Añadir a la cesta', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13))),
                         ),
                         const SizedBox(height: 8),
-                        // Buy now button
                         Container(
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(vertical: 10),
@@ -297,12 +239,7 @@ class ProductPage extends StatelessWidget {
                             color: AppColors.addToCartOrange,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: const Center(
-                            child: Text(
-                              'Comprar ya',
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-                            ),
-                          ),
+                          child: const Center(child: Text('Comprar ya', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13))),
                         ),
                         const SizedBox(height: 10),
                         _buyBoxRow('Envío desde', 'Amazon'),
@@ -310,20 +247,11 @@ class ProductPage extends StatelessWidget {
                         _buyBoxRow('Devoluciones', 'Se puede devolver en 30 días'),
                         _buyBoxRow('Pago', 'Transacción segura'),
                         const SizedBox(height: 10),
-                        const Text(
-                          'Añadir a la Lista de deseos',
-                          style: TextStyle(color: AppColors.linkBlue, fontSize: 13),
-                        ),
+                        const Text('Añadir a la Lista de deseos', style: TextStyle(color: AppColors.linkBlue, fontSize: 13)),
                         const Divider(height: 16),
-                        const Text(
-                          'Otros vendedores en Amazon',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-                        ),
+                        const Text('Otros vendedores en Amazon', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
                         const SizedBox(height: 4),
-                        const Text(
-                          'Nuevos (5) desde 395⁹⁹€  Envío ↓',
-                          style: TextStyle(color: AppColors.linkBlue, fontSize: 12),
-                        ),
+                        const Text('Nuevos (5) desde 395⁹⁹€  Envío ↓', style: TextStyle(color: AppColors.linkBlue, fontSize: 12)),
                       ],
                     ),
                   ),
@@ -336,43 +264,11 @@ class ProductPage extends StatelessWidget {
     );
   }
 
-  Widget _thumbnail() {
-    return Container(
-      height: 60,
-      margin: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[300]!),
-      ),
-      child: Image.network(
-        'https://picsum.photos/seed/laptop_thumb/60/60',
-        fit: BoxFit.cover,
-        errorBuilder: (c, e, s) => Container(color: Colors.grey[200]),
-      ),
-    );
-  }
-
-  Widget _smallImage() {
-    return Container(
-      width: 80,
-      height: 60,
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      decoration: BoxDecoration(border: Border.all(color: Colors.grey[300]!)),
-      child: Image.network(
-        'https://picsum.photos/seed/laptop_sm/80/60',
-        fit: BoxFit.cover,
-        errorBuilder: (c, e, s) => Container(color: Colors.grey[200]),
-      ),
-    );
-  }
-
   Widget _sizeBox(String size, String price, bool selected) {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        border: Border.all(
-          color: selected ? AppColors.amazonOrange : Colors.grey,
-          width: selected ? 2 : 1,
-        ),
+        border: Border.all(color: selected ? AppColors.amazonOrange : Colors.grey, width: selected ? 2 : 1),
         borderRadius: BorderRadius.circular(4),
         color: selected ? const Color(0xFFFFF8EE) : Colors.white,
       ),
@@ -391,10 +287,7 @@ class ProductPage extends StatelessWidget {
       height: 40,
       decoration: BoxDecoration(
         color: color,
-        border: Border.all(
-          color: selected ? AppColors.amazonOrange : Colors.grey,
-          width: selected ? 2 : 1,
-        ),
+        border: Border.all(color: selected ? AppColors.amazonOrange : Colors.grey, width: selected ? 2 : 1),
         borderRadius: BorderRadius.circular(4),
       ),
     );
@@ -406,13 +299,8 @@ class ProductPage extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 130,
-            child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-          ),
-          Expanded(
-            child: Text(value, style: const TextStyle(fontSize: 12)),
-          ),
+          SizedBox(width: 130, child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12))),
+          Expanded(child: Text(value, style: const TextStyle(fontSize: 12))),
         ],
       ),
     );
@@ -426,12 +314,7 @@ class ProductPage extends StatelessWidget {
         children: [
           Text(label, style: const TextStyle(fontSize: 11, color: Colors.black54)),
           const SizedBox(width: 4),
-          Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(fontSize: 11, color: AppColors.linkBlue),
-            ),
-          ),
+          Expanded(child: Text(value, style: const TextStyle(fontSize: 11, color: AppColors.linkBlue))),
         ],
       ),
     );
