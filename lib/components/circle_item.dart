@@ -8,13 +8,22 @@ class CircleItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         CircleAvatar(
           radius: 50,
-          backgroundImage: NetworkImage('https://picsum.photos/100'),
+          backgroundImage: NetworkImage(
+            'https://picsum.photos/seed/${title.hashCode.abs()}/100/100',
+          ),
         ),
-        SizedBox(height: 5),
-        Text(title),
+        const SizedBox(height: 6),
+        Text(
+          title,
+          style: const TextStyle(fontSize: 12),
+          textAlign: TextAlign.center,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
       ],
     );
   }

@@ -6,4 +6,7 @@ class AppColors {
   static const Color searchBar = Colors.white;
   static const Color amazonOrange = Color(0xFFFF9900);
   static const Color background = Color(0xFFEAEDED);
+  static const Color linkBlue = Color(0xFF007185);
+  static const Color buyNowYellow = Color(0xFFFFD814);
+  static const Color addToCartOrange = Color(0xFFFF9900);
 }

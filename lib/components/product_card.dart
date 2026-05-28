@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../constants.dart';
 
 class ProductCard extends StatelessWidget {
   final String title;
@@ -10,19 +11,36 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(12),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-          SizedBox(height: 10),
-          Image.network(
-            'https://picsum.photos/200',
-            width: double.infinity,
-            height: 150,
-            fit: BoxFit.cover,
+          Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
-          SizedBox(height: 10),
-          Text(link, style: TextStyle(color: Colors.blue)),
+          const SizedBox(height: 8),
+          Expanded(
+            child: Image.network(
+              'https://picsum.photos/seed/${title.hashCode.abs()}/300/200',
+              width: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
+                color: Colors.grey[300],
+                child: const Icon(Icons.image, color: Colors.grey),
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            link,
+            style: const TextStyle(
+              color: AppColors.linkBlue,
+              fontSize: 13,
+            ),
+          ),
         ],
       ),
     );
