@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import '../pages/product_page.dart';
 import '../constants.dart';
 
 class NavBar extends StatefulWidget {
-  const NavBar({super.key});
+  final VoidCallback? onSearch;
+
+  const NavBar({super.key, this.onSearch});
 
   @override
   State<NavBar> createState() => _NavBarState();
@@ -23,19 +24,13 @@ class _NavBarState extends State<NavBar> {
           child: Row(
             children: [
               // Logo Amazon
-              Container(
-                padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.transparent, width: 1),
-                ),
-                child: const Text(
-                  'amazon',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic,
-                  ),
+              const Text(
+                'amazon',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
                 ),
               ),
               const Text(
@@ -47,14 +42,8 @@ class _NavBarState extends State<NavBar> {
               const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Entrega en',
-                    style: TextStyle(color: Colors.grey, fontSize: 11),
-                  ),
-                  Text(
-                    'Barcelona 08025',
-                    style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
-                  ),
+                  Text('Entrega en', style: TextStyle(color: Colors.grey, fontSize: 11)),
+                  Text('Barcelona 08025', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
                 ],
               ),
               const SizedBox(width: 10),
@@ -71,7 +60,7 @@ class _NavBarState extends State<NavBar> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                         decoration: const BoxDecoration(
-                          color: Color(0xFFDDD),
+                          color: Color(0xFFDDDDDD),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(4),
                             bottomLeft: Radius.circular(4),
@@ -102,12 +91,7 @@ class _NavBarState extends State<NavBar> {
                       GestureDetector(
                         onTap: () {
                           if (searchController.text.trim().toLowerCase() == 'laptop') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ProductPage(),
-                              ),
-                            );
+                            widget.onSearch?.call();
                           }
                         },
                         child: Container(
@@ -140,10 +124,7 @@ class _NavBarState extends State<NavBar> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Hola, identifícate', style: TextStyle(color: Colors.grey, fontSize: 11)),
-                  Text(
-                    'Cuenta y listas ▾',
-                    style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
-                  ),
+                  Text('Cuenta y listas ▾', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
                 ],
               ),
               const SizedBox(width: 10),
@@ -152,10 +133,7 @@ class _NavBarState extends State<NavBar> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Devoluciones', style: TextStyle(color: Colors.grey, fontSize: 11)),
-                  Text(
-                    'y Pedidos',
-                    style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
-                  ),
+                  Text('y Pedidos', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
                 ],
               ),
               const SizedBox(width: 10),
@@ -165,9 +143,9 @@ class _NavBarState extends State<NavBar> {
                   const Icon(Icons.shopping_cart, color: Colors.white, size: 28),
                   const SizedBox(width: 2),
                   Column(
-                    children: [
-                      const Text('0', style: TextStyle(color: AppColors.amazonOrange, fontWeight: FontWeight.bold)),
-                      const Text('Cesta', style: TextStyle(color: Colors.white, fontSize: 11)),
+                    children: const [
+                      Text('0', style: TextStyle(color: AppColors.amazonOrange, fontWeight: FontWeight.bold)),
+                      Text('Cesta', style: TextStyle(color: Colors.white, fontSize: 11)),
                     ],
                   ),
                 ],
@@ -193,10 +171,7 @@ class _NavBarState extends State<NavBar> {
               _navItem('Tarjetas regalo'),
               _navItem('Informática'),
               const Spacer(),
-              const Text(
-                'Regalos para mamá',
-                style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
-              ),
+              const Text('Regalos para mamá', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
             ],
           ),
         ),
